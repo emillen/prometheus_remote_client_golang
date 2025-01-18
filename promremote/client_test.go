@@ -68,12 +68,18 @@ func TestPromRemoteClientWrite(t *testing.T) {
 		require.NoError(t, err)
 
 		assert.Len(t, newWR.Timeseries, 1)
-		assert.Len(t, newWR.Timeseries[0].Labels, 2)
+		assert.Len(t, newWR.Timeseries[0].Labels, 5)
 		assert.Len(t, newWR.Timeseries[0].Samples, 1)
 		assert.Equal(t, "__name__", newWR.Timeseries[0].Labels[0].Name)
-		assert.Equal(t, "foo_bar", newWR.Timeseries[0].Labels[0].Value)
-		assert.Equal(t, "biz", newWR.Timeseries[0].Labels[1].Name)
-		assert.Equal(t, "baz", newWR.Timeseries[0].Labels[1].Value)
+		assert.Equal(t, "my name", newWR.Timeseries[0].Labels[0].Value)
+		assert.Equal(t, "bar", newWR.Timeseries[0].Labels[1].Name)
+		assert.Equal(t, "my bar", newWR.Timeseries[0].Labels[1].Value)
+		assert.Equal(t, "baz", newWR.Timeseries[0].Labels[2].Name)
+		assert.Equal(t, "my baz", newWR.Timeseries[0].Labels[2].Value)
+		assert.Equal(t, "biz", newWR.Timeseries[0].Labels[3].Name)
+		assert.Equal(t, "my biz", newWR.Timeseries[0].Labels[3].Value)
+		assert.Equal(t, "foo", newWR.Timeseries[0].Labels[4].Name)
+		assert.Equal(t, "my foo", newWR.Timeseries[0].Labels[4].Value)
 		assert.Equal(t, 1415.92, newWR.Timeseries[0].Samples[0].Value)
 		assert.Equal(t, nowMillis, newWR.Timeseries[0].Samples[0].Timestamp)
 	}))
@@ -92,11 +98,23 @@ func TestPromRemoteClientWrite(t *testing.T) {
 			Labels: []Label{
 				{
 					Name:  "__name__",
-					Value: "foo_bar",
+					Value: "my name",
+				},
+				{
+					Name:  "foo",
+					Value: "my foo",
+				},
+				{
+					Name:  "bar",
+					Value: "my bar",
 				},
 				{
 					Name:  "biz",
-					Value: "baz",
+					Value: "my biz",
+				},
+				{
+					Name:  "baz",
+					Value: "my baz",
 				},
 			},
 			Datapoint: Datapoint{

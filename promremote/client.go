@@ -27,6 +27,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"sort"
 	"time"
 
 	"github.com/golang/protobuf/proto"
@@ -275,6 +276,11 @@ func (t TSList) toPromWriteRequest() *prompb.WriteRequest {
 
 	for i, ts := range t {
 		labels := make([]prompb.Label, len(ts.Labels))
+
+		sort.Slice(ts.Labels, func(i, j int) bool {
+			return ts.Labels[i].Name < ts.Labels[j].Name
+		})
+
 		for j, label := range ts.Labels {
 			labels[j] = prompb.Label{Name: label.Name, Value: label.Value}
 		}
